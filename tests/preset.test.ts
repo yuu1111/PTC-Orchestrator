@@ -5,13 +5,14 @@ import { z } from "zod";
 import {
 	flattenPlugins,
 	pluginConfig,
+	presetRow,
 	readComposition,
 } from "../scripts/composition.ts";
 
 const patches = await readComposition(
 	new URL("../cordis.patch.yml", import.meta.url),
 );
-const row = patches[0].insert[0];
+const row = presetRow(patches);
 const plugins = row.config.plugins;
 
 const entries = flattenPlugins(plugins);
@@ -22,7 +23,7 @@ function plugin(id: string) {
 	return entry;
 }
 
-test("bundle exposes the preset patch without a Host code entry point", async () => {
+test("bundle exposes the preset patch and compiled TypeScript policy", async () => {
 	const manifestSchema = z.object({
 		dsh: z.object({ bundle: z.object({ patch: z.string() }) }),
 		main: z.unknown().optional(),
@@ -33,13 +34,15 @@ test("bundle exposes the preset patch without a Host code entry point", async ()
 		),
 	);
 	assert.equal(manifest.dsh.bundle.patch, "./cordis.patch.yml");
-	assert.equal(manifest.main, undefined);
+	assert.equal(manifest.main, "dist/ida-only.js");
 });
 
 test("new preset is inserted without overriding shipped presets", () => {
 	assert.equal(patches.length, 1);
 	assert.deepEqual(Object.keys(patches[0]), ["insert"]);
-	assert.equal(patches[0].insert.length, 1);
+	assert.equal(patches[0].insert.length, 2);
+	assert.equal(patches[0].insert[0]?.id, "local-orchestrator-policy-runtime");
+	assert.equal(patches[0].insert[0]?.name, "./dist/register.js");
 	assert.equal(row.id, "preset-local-orchestrator");
 	assert.equal(row.name, "@deepseek-ai/dsh-agent-preset");
 	assert.equal(row.config.id, "local-orchestrator");

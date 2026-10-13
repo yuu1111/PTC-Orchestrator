@@ -1,7 +1,11 @@
 {
 	"name": "dsh-local-orchestrator",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"private": true,
+	"main": "dist/ida-only.js",
+	"exports": {
+		".": "./dist/ida-only.js"
+	},
 	"type": "module",
 	"description": "PTC baseline for local-model orchestration with API subagents",
 	"license": "MIT",
@@ -9,6 +13,7 @@
 		"node": ">=22.19"
 	},
 	"files": [
+		"dist",
 		"cordis.patch.yml",
 		"README.md",
 		"LICENSE"
@@ -18,7 +23,8 @@
 		"check:upstream": "node scripts/check-upstream.ts",
 		"check:quality": "quality-check",
 		"format": "biome check --write .",
-		"check": "npm run check:quality && npm test"
+		"build": "tsc -p tsconfig.build.json",
+		"check": "npm run check:quality && npm test && npm run build"
 	},
 	"dsh": {
 		"bundle": {
@@ -27,6 +33,16 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.15",
+		"@deepseek-ai/cordis": "^4.0.4",
+		"@deepseek-ai/cordis-plugin-loader": "^1.0.5",
+		"@deepseek-ai/dsh-agent": "^0.2.0-rc.2",
+		"@deepseek-ai/dsh-agent-preset-registry": "^0.2.0-rc.2",
+		"@deepseek-ai/dsh-commands": "^0.2.0-rc.2",
+		"@deepseek-ai/dsh-mcp-resources": "^0.2.0-rc.2",
+		"@deepseek-ai/dsh-ptc-runtime": "^0.2.0-rc.2",
+		"@deepseek-ai/dsh-scope": "^0.2.0-rc.2",
+		"@deepseek-ai/dsh-system-prompt": "^0.2.0-rc.2",
+		"@deepseek-ai/dsh-tools": "^0.2.0-rc.2",
 		"@types/js-yaml": "^4.0.9",
 		"@types/node": "^26.6.5",
 		"@yuu1111/biome-config": "^2.2.2",
@@ -35,7 +51,9 @@
 		"@yuu1111/tsconfig": "^1.0.8",
 		"js-yaml": "^4.3.2",
 		"knip": "^6.41.0",
-		"typescript": "^7.0.2",
+		"typescript": "^7.0.2"
+	},
+	"dependencies": {
 		"zod": "^4.6.7"
 	}
 }

@@ -17,31 +17,34 @@ const pluginSchema = z
 	})
 	.passthrough();
 const pluginsSchema = z.array(pluginSchema);
-const compositionSchema = z.tuple([
-	z.object({
-		insert: z.tuple([
-			z
-				.object({
-					id: z.string(),
-					name: z.string(),
-					config: z
-						.object({
-							id: z.string(),
-							name: z.string().optional(),
-							description: z.string().optional(),
-							order: z.number().optional(),
-							plugins: pluginsSchema,
-						})
-						.passthrough(),
-				})
-				.passthrough(),
-		]),
-	}),
-]);
+const presetSchema = z
+	.object({
+		id: z.string(),
+		name: z.literal("@deepseek-ai/dsh-agent-preset"),
+		config: z
+			.object({
+				id: z.string(),
+				name: z.string().optional(),
+				description: z.string().optional(),
+				order: z.number().optional(),
+				plugins: pluginsSchema,
+			})
+			.passthrough(),
+	})
+	.passthrough();
+const compositionSchema = z.tuple([z.object({ insert: pluginsSchema })]);
 
 export async function readComposition(path: string | URL) {
 	return compositionSchema.parse(
 		yaml.load(await readFile(path, "utf8"), { schema: yamlSchema }),
+	);
+}
+
+export function presetRow(composition: z.infer<typeof compositionSchema>) {
+	return presetSchema.parse(
+		composition[0].insert.find(
+			(entry) => entry.name === "@deepseek-ai/dsh-agent-preset",
+		),
 	);
 }
 

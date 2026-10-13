@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readComposition } from "./composition.ts";
+import { presetRow, readComposition } from "./composition.ts";
 
 const source = process.argv[2];
 if (!source) {
@@ -8,15 +8,17 @@ if (!source) {
 	);
 	process.exitCode = 1;
 } else {
-	const baseline = await readComposition(source);
-	const local = await readComposition(
-		new URL("../cordis.patch.yml", import.meta.url),
+	const baseline = presetRow(await readComposition(source));
+	const local = presetRow(
+		await readComposition(new URL("../cordis.patch.yml", import.meta.url)),
 	);
-	assert.equal(baseline[0].insert[0].config.id, "ptc");
-	assert.equal(local[0].insert[0].config.id, "local-orchestrator");
+	assert.equal(baseline.config.id, "ptc");
+	assert.equal(local.config.id, "local-orchestrator");
 	assert.deepEqual(
-		local[0].insert[0].config.plugins,
-		baseline[0].insert[0].config.plugins,
+		local.config.plugins.filter((plugin) => plugin.id !== "ida-only"),
+		baseline.config.plugins,
 	);
-	console.log("PASS: local plugin composition matches shipped PTC");
+	console.log(
+		"PASS: PTC baseline matches upstream apart from the explicit IDA-only policy",
+	);
 }

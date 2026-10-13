@@ -1,0 +1,18 @@
+{
+	"extends": "@yuu1111/tsconfig/library.json",
+	"compilerOptions": {
+		"types": [
+			"node"
+		],
+		"rootDir": "src",
+		"outDir": "dist",
+		"rewriteRelativeImportExtensions": true,
+		"erasableSyntaxOnly": true,
+		"declaration": false,
+		"declarationMap": false,
+		"sourceMap": false
+	},
+	"include": [
+		"src/**/*.ts"
+	]
+}
