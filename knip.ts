@@ -4,7 +4,7 @@ export default {
 	...application,
 	entry: [
 		"quality.json",
-		"src/ida-only.ts",
+		"src/main.ts",
 		"src/register.ts",
 		"tests/**/*.test.ts",
 	],

@@ -1,4 +1,4 @@
-import * as policy from "./ida-only.js";
+import * as policy from "./main.js";
 export const inject = ["loader"];
 export const provide = ["localOrchestratorRuntime"];
 export function apply(ctx) {

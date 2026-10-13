@@ -34,7 +34,7 @@ test("bundle exposes the preset patch and compiled TypeScript policy", async () 
 		),
 	);
 	assert.equal(manifest.dsh.bundle.patch, "./cordis.patch.yml");
-	assert.equal(manifest.main, "dist/ida-only.js");
+	assert.equal(manifest.main, "dist/main.js");
 });
 
 test("new preset is inserted without overriding shipped presets", () => {

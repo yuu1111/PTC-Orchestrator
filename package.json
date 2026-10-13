@@ -2,9 +2,9 @@
 	"name": "dsh-local-orchestrator",
 	"version": "0.2.0",
 	"private": true,
-	"main": "dist/ida-only.js",
+	"main": "dist/main.js",
 	"exports": {
-		".": "./dist/ida-only.js"
+		".": "./dist/main.js"
 	},
 	"type": "module",
 	"description": "PTC baseline for local-model orchestration with API subagents",

@@ -1,6 +1,6 @@
 import type { Context } from "@deepseek-ai/cordis";
 import type {} from "@deepseek-ai/cordis-plugin-loader";
-import * as policy from "./ida-only.ts";
+import * as policy from "./main.ts";
 
 declare module "@deepseek-ai/cordis" {
 	interface Context {

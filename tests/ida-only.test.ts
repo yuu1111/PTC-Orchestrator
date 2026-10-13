@@ -7,7 +7,7 @@ import { createScope, type ScopeKey, scopeOf } from "@deepseek-ai/dsh-scope";
 import SystemPrompt from "@deepseek-ai/dsh-system-prompt";
 import ToolRuntime, { type ToolDefinition } from "@deepseek-ai/dsh-tools";
 import { z } from "zod";
-import { installAgentPolicy } from "../src/ida-only.ts";
+import { installAgentPolicy } from "../src/main.ts";
 
 const connectionConfig = {
 	serverName: "idalib",
