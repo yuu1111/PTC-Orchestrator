@@ -8,7 +8,7 @@
       config:
         id: ptc-orchestrator
         name: PTC-Orchestrator
-        description: PTC with Agent-local IDA MCP only; other Host MCP servers are excluded
+        description: ローカルモデルによるAPIモデルへの委任向けプリセット PTCベースでMCPはIDAのみ公開
         order: 20
         plugins:
           - id: ida-only

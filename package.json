@@ -7,7 +7,7 @@
 		".": "./dist/main.js"
 	},
 	"type": "module",
-	"description": "PTC baseline for local-model orchestration with API subagents",
+	"description": "ローカルモデルによるAPIモデルへの委任向けプリセット PTCベースでMCPはIDAのみ公開",
 	"license": "MIT",
 	"engines": {
 		"node": ">=22.19"
