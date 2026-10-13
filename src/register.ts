@@ -4,22 +4,22 @@ import * as policy from "./main.ts";
 
 declare module "@deepseek-ai/cordis" {
 	interface Context {
-		localOrchestratorRuntime: boolean;
+		ptcOrchestratorRuntime: boolean;
 	}
 }
 
 export const inject = ["loader"];
-export const provide = ["localOrchestratorRuntime"];
+export const provide = ["ptcOrchestratorRuntime"];
 
 export function apply(ctx: Context) {
-	const key = "local-orchestrator-ida-only";
+	const key = "ptc-orchestrator-ida-only";
 	if (ctx.loader.builtins[key])
-		throw new Error("Local Orchestrator policy runtime is already registered");
+		throw new Error("PTC-Orchestrator policy runtime is already registered");
 	ctx.effect(() => {
 		ctx.loader.builtins[key] = policy;
 		return () => {
 			if (ctx.loader.builtins[key] === policy) delete ctx.loader.builtins[key];
 		};
 	});
-	ctx.provide("localOrchestratorRuntime", true);
+	ctx.provide("ptcOrchestratorRuntime", true);
 }

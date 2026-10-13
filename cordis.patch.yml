@@ -1,18 +1,18 @@
 - insert:
-    - id: local-orchestrator-policy-runtime
+    - id: ptc-orchestrator-policy-runtime
       name: ./dist/register.js
-    - id: preset-local-orchestrator
+    - id: preset-ptc-orchestrator
       name: '@deepseek-ai/dsh-agent-preset'
       inject:
-        - localOrchestratorRuntime
+        - ptcOrchestratorRuntime
       config:
-        id: local-orchestrator
-        name: Local Orchestrator (PTC Base)
+        id: ptc-orchestrator
+        name: PTC-Orchestrator
         description: PTC with Agent-local IDA MCP only; other Host MCP servers are excluded
         order: 20
         plugins:
           - id: ida-only
-            name: cordis:local-orchestrator-ida-only
+            name: cordis:ptc-orchestrator-ida-only
             config:
               sourceEntry: include:mcp-idalib
           - id: persona

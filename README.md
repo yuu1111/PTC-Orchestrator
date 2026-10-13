@@ -1,4 +1,4 @@
-# dsh-local-orchestrator
+# PTC-Orchestrator
 
 ローカルモデルで手元の作業を進め、必要な処理をAPIモデルへ委任するための、自分用のDSHプリセット
 参考にする場合はforkし、MCPやプラグイン構成を自分の環境に合わせて変更する
@@ -9,8 +9,8 @@
 DSH 0.2.0-rc.2 の組み込みPTCをコピーし、IDA限定のMCP制御を追加している
 自動追従する継承ではなく独立した構成として管理する
 
-- プリセットID: `local-orchestrator`
-- 表示名: `Local Orchestrator (PTC Base)`
+- プリセットID: `ptc-orchestrator`
+- 表示名: `PTC-Orchestrator`
 - このプリセットのMCPは `idalib` のみ
 - 組み込みPTCとHost全体のMCP設定は上書きしない
 - MCP以外のPTCプラグイン構成は維持している
@@ -45,7 +45,7 @@ npm run check
 npm run check:upstream -- "<DSHのインストール先>/node_modules/@deepseek-ai/dsh-web-app/presets/ptc.patch.yml"
 ```
 
-`npm run check` は最初にHostコードをビルドし、品質チェックと17件のテストを実行する
+`npm run check` は最初にHostコードをビルドし、品質チェックとテストを実行する
 上流比較ではIDA制御プラグインだけを除外し、残りのPTC構成が一致するかを検証する
 プラグイン削減を始めた後は、その変更も比較方針へ反映する
 
@@ -71,12 +71,17 @@ JavaScriptの更新がHMRで反映されない場合はDSHを再起動する
 ```text
 /orchestrator-check
 /orchestrator-check child
+/orchestrator-prompt llama-local
 ```
 
 通常の診断は実際のPTC宣言、MCP指示文、サーバー一覧、Cloudflareリソース3操作の拒否を確認する
 `child` はモデルを起動しない一時的な子Agentと比較用PTC Agentも作り、検証後に両方をdisposeする
 委任先モデルの応答を試すコマンドではない
+`orchestrator-prompt` は登録済みproviderの先頭モデルで初回処理だけを組み立て、プロンプト・SDK・Skill一覧・AGENTSの文字数を返す
+Agentの実行ループは開始せず、会話履歴・ユーザーの依頼・ツール結果・providerの送信形式・トークン化は計測に含めない
 診断結果はコマンドログに残るが、接続設定や認証情報は表示しない
+初回処理を含めたローカル実機の計測では、固定テキスト72,460文字、SDK61,370文字、Skill一覧2,447文字だった
+文字数はUTF-16単位であり、モデル固有のトークン数ではない
 
 ローカル実機では、親と子のIDAツール74個、他MCPツール・指示文0、リソース3操作の拒否を確認済み
 比較用PTCはCloudflareツール4個とIDAツール74個を維持した

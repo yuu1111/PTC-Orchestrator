@@ -6,8 +6,9 @@ import type {} from "@deepseek-ai/dsh-system-prompt";
 import type {} from "@deepseek-ai/dsh-tools";
 import { z } from "zod";
 import { registerDiagnostics } from "./diagnostics.ts";
+import { registerPromptDiagnostics } from "./prompt-diagnostics.ts";
 
-export const name = "local-orchestrator-ida-only";
+export const name = "ptc-orchestrator-ida-only";
 export const inject = ["agents", "loader", "tools", "systemPrompt"];
 export const Config = z.object({
 	sourceEntry: z.string().default("include:mcp-idalib"),
@@ -142,7 +143,7 @@ export async function installAgentPolicy(
 				.object({ server: z.literal("idalib") })
 				.safeParse(execution.arguments);
 			if (!connectionReady || !requested.success)
-				return "Local Orchestrator permits only its configured IDA MCP resources";
+				return "PTC-Orchestrator permits only its configured IDA MCP resources";
 		}
 		if (execution.name.startsWith("mcp__")) {
 			const inherited = ctx.tools.get(execution.name, inheritedScope);
@@ -153,7 +154,7 @@ export async function installAgentPolicy(
 				visible === inherited ||
 				!execution.name.startsWith("mcp__idalib__")
 			)
-				return "Inherited MCP tools are unavailable in Local Orchestrator";
+				return "Inherited MCP tools are unavailable in PTC-Orchestrator";
 		}
 		return undefined;
 	});
@@ -253,7 +254,7 @@ export async function apply(ctx: Context, settings: Settings) {
 		}
 		return next();
 	});
-	registerDiagnostics(ctx, async (agent) => {
+	const ready = async (agent: Agent) => {
 		const state = ensure(agent);
 		if (!state)
 			throw new Error("Agent does not belong to this preset revision");
@@ -261,6 +262,8 @@ export async function apply(ctx: Context, settings: Settings) {
 		if (state.fiber.state !== 2 || !state.refresh)
 			throw new Error("IDA-only MCP policy is not ready");
 		await state.refresh();
-	});
+	};
+	registerDiagnostics(ctx, ready);
+	registerPromptDiagnostics(ctx, ready);
 	for (const agent of ctx.agents.list()) await ensure(agent)?.fiber.await();
 }

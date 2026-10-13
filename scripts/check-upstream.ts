@@ -13,7 +13,7 @@ if (!source) {
 		await readComposition(new URL("../cordis.patch.yml", import.meta.url)),
 	);
 	assert.equal(baseline.config.id, "ptc");
-	assert.equal(local.config.id, "local-orchestrator");
+	assert.equal(local.config.id, "ptc-orchestrator");
 	assert.deepEqual(
 		local.config.plugins.filter((plugin) => plugin.id !== "ida-only"),
 		baseline.config.plugins,

@@ -1,5 +1,5 @@
 {
-	"name": "dsh-local-orchestrator",
+	"name": "ptc-orchestrator",
 	"version": "0.2.0",
 	"private": true,
 	"main": "dist/main.js",

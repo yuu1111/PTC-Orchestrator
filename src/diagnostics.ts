@@ -7,7 +7,7 @@ import type { SessionId } from "@deepseek-ai/dsh-session";
 import { z } from "zod";
 
 const probe =
-	"const methods = ['list_mcp_resources', 'list_mcp_resource_templates', 'read_mcp_resource']; const reasons = []; for (const method of methods) { try { await tools[method](method === 'read_mcp_resource' ? {server:'cloudflare',uri:'fixture://blocked'} : {server:'cloudflare'}); reasons.push('NOT BLOCKED'); } catch (error) { reasons.push(String(error)); } } return {blocked:reasons.filter(reason=>reason.includes('Local Orchestrator permits only')).length,reasons};";
+	"const methods = ['list_mcp_resources', 'list_mcp_resource_templates', 'read_mcp_resource']; const reasons = []; for (const method of methods) { try { await tools[method](method === 'read_mcp_resource' ? {server:'cloudflare',uri:'fixture://blocked'} : {server:'cloudflare'}); reasons.push('NOT BLOCKED'); } catch (error) { reasons.push(String(error)); } } return {blocked:reasons.filter(reason=>reason.includes('PTC-Orchestrator permits only')).length,reasons};";
 
 async function inspectAgent(
 	inner: Context,
@@ -97,7 +97,7 @@ async function inspectChild(
 		meta: {
 			origin: "subagent",
 			parentSession: agent.id,
-			agentPreset: "local-orchestrator",
+			agentPreset: "ptc-orchestrator",
 			...(agent.session.header.cwd ? { cwd: agent.session.header.cwd } : {}),
 		},
 		agentOptions: agent.options,

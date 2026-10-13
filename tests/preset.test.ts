@@ -41,12 +41,12 @@ test("new preset is inserted without overriding shipped presets", () => {
 	assert.equal(patches.length, 1);
 	assert.deepEqual(Object.keys(patches[0]), ["insert"]);
 	assert.equal(patches[0].insert.length, 2);
-	assert.equal(patches[0].insert[0]?.id, "local-orchestrator-policy-runtime");
+	assert.equal(patches[0].insert[0]?.id, "ptc-orchestrator-policy-runtime");
 	assert.equal(patches[0].insert[0]?.name, "./dist/register.js");
-	assert.equal(row.id, "preset-local-orchestrator");
+	assert.equal(row.id, "preset-ptc-orchestrator");
 	assert.equal(row.name, "@deepseek-ai/dsh-agent-preset");
-	assert.equal(row.config.id, "local-orchestrator");
-	assert.equal(row.config.name, "Local Orchestrator (PTC Base)");
+	assert.equal(row.config.id, "ptc-orchestrator");
+	assert.equal(row.config.name, "PTC-Orchestrator");
 });
 
 test("every plugin has a unique row identity", () => {
