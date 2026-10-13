@@ -1,28 +1,41 @@
 {
-  "name": "dsh-local-orchestrator",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "description": "PTC baseline for local-model orchestration with API subagents",
-  "license": "MIT",
-  "engines": {
-    "node": ">=22.19"
-  },
-  "files": [
-    "cordis.patch.yml",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "test": "node --test --test-reporter=spec",
-    "check:upstream": "node scripts/check-upstream.mjs"
-  },
-  "dsh": {
-    "bundle": {
-      "patch": "./cordis.patch.yml"
-    }
-  },
-  "devDependencies": {
-    "js-yaml": "^4.3.2"
-  }
+	"name": "dsh-local-orchestrator",
+	"version": "0.1.0",
+	"private": true,
+	"type": "module",
+	"description": "PTC baseline for local-model orchestration with API subagents",
+	"license": "MIT",
+	"engines": {
+		"node": ">=22.19"
+	},
+	"files": [
+		"cordis.patch.yml",
+		"README.md",
+		"LICENSE"
+	],
+	"scripts": {
+		"test": "node --test --test-reporter=spec tests/*.test.ts",
+		"check:upstream": "node scripts/check-upstream.ts",
+		"check:quality": "quality-check",
+		"format": "biome check --write .",
+		"check": "npm run check:quality && npm test"
+	},
+	"dsh": {
+		"bundle": {
+			"patch": "./cordis.patch.yml"
+		}
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.15",
+		"@types/js-yaml": "^4.0.9",
+		"@types/node": "^26.6.5",
+		"@yuu1111/biome-config": "^2.2.2",
+		"@yuu1111/knip-config": "^2.1.0",
+		"@yuu1111/quality-check": "^5.3.1",
+		"@yuu1111/tsconfig": "^1.0.8",
+		"js-yaml": "^4.3.2",
+		"knip": "^6.41.0",
+		"typescript": "^7.0.2",
+		"zod": "^4.6.7"
+	}
 }

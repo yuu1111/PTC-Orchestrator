@@ -1,0 +1,15 @@
+{
+	"extends": "@yuu1111/tsconfig/base.json",
+	"compilerOptions": {
+		"types": [
+			"node"
+		],
+		"allowImportingTsExtensions": true,
+		"erasableSyntaxOnly": true
+	},
+	"include": [
+		"scripts/**/*.ts",
+		"tests/**/*.ts",
+		"knip.ts"
+	]
+}

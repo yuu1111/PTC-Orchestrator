@@ -19,7 +19,7 @@ DSHの宣言には継承フィールドがないため、自動追従する継�
 
 ```powershell
 npm ci
-npm test
+npm run check
 npm run check:upstream -- "<DSHのインストール先>/node_modules/@deepseek-ai/dsh-web-app/presets/ptc.patch.yml"
 ```
 
@@ -27,6 +27,18 @@ npm run check:upstream -- "<DSHのインストール先>/node_modules/@deepseek-
 上流比較は子プラグイン構成が指定した組み込みPTCと一致するかを検証する
 意図的に構成を絞った後は、上流比較で差分が検出される
 これらの検証だけではHostでのマウントやモデルの実行を確認できない
+
+## TypeScriptと品質チェック
+
+検証スクリプトとテストはTypeScriptで記述し、Nodeの型除去で直接実行する
+品質チェックにはBunが必要
+
+- `@yuu1111/quality-check`: Biome、型検査、Knip、コード、コメント、文書、TSDocのチェックをまとめて実行
+- `@yuu1111/biome-config`: Biomeの共通設定とcoreルール
+- `@yuu1111/tsconfig`: strictな型検査の共通設定
+- `@yuu1111/knip-config`: 未使用ファイル、依存、exportの検査設定
+
+`npm run check` で品質チェックとテストを実行する
 
 ## DSHへの導入
 

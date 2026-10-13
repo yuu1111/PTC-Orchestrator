@@ -1,0 +1,45 @@
+{
+	"$schema": "./node_modules/@yuu1111/quality-check/schema.json",
+	"baseline": false,
+	"failOnWarnings": true,
+	"biome": {
+		"enabled": true
+	},
+	"typecheck": {
+		"enabled": true
+	},
+	"knip": {
+		"enabled": true
+	},
+	"code-style-check": {
+		"enabled": true,
+		"includes": [
+			"scripts/**/*.ts",
+			"tests/**/*.ts",
+			"knip.ts"
+		]
+	},
+	"comment-check": {
+		"enabled": true,
+		"includes": [
+			"scripts/**/*.ts",
+			"tests/**/*.ts",
+			"knip.ts"
+		]
+	},
+	"document-style-check": {
+		"enabled": true,
+		"includes": [
+			"README.md",
+			"AGENTS.md"
+		]
+	},
+	"tsdoc-check": {
+		"enabled": true,
+		"includes": [
+			"scripts/**/*.ts",
+			"tests/**/*.ts",
+			"knip.ts"
+		]
+	}
+}
