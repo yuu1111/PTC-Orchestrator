@@ -1,0 +1,28 @@
+{
+  "name": "dsh-local-orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "PTC baseline for local-model orchestration with API subagents",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.19"
+  },
+  "files": [
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test --test-reporter=spec",
+    "check:upstream": "node scripts/check-upstream.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "devDependencies": {
+    "js-yaml": "^4.3.2"
+  }
+}
