@@ -36,7 +36,7 @@ HostのIDAエントリーが無効、未設定、別サーバー、またはAgen
 
 実装、スクリプト、テストはTypeScriptで記述する
 テストはNodeの型除去で直接実行し、Host用のJavaScriptはTypeScriptから生成する
-インストール時のビルドスクリプトを不要にするため、生成した `dist/` もGitで管理する
+生成した `dist/` はGitで管理せず、導入前にローカルでビルドする
 品質チェックにはBunが必要
 
 ```powershell
@@ -45,7 +45,7 @@ npm run check
 npm run check:upstream -- "<DSHのインストール先>/node_modules/@deepseek-ai/dsh-web-app/presets/ptc.patch.yml"
 ```
 
-`npm run check` は品質チェック、17件のテスト、Hostコードのビルドを実行する
+`npm run check` は最初にHostコードをビルドし、品質チェックと17件のテストを実行する
 上流比較ではIDA制御プラグインだけを除外し、残りのPTC構成が一致するかを検証する
 プラグイン削減を始めた後は、その変更も比較方針へ反映する
 
@@ -56,7 +56,8 @@ npm run check:upstream -- "<DSHのインストール先>/node_modules/@deepseek-
 
 ## DSHへの導入と動作確認
 
-DSHのプラグイン管理で、このRepoの絶対パスをローカルbundleとしてインストールする
+clone後に `npm ci` と `npm run check` を実行して生成物を用意する
+その後、DSHのプラグイン管理で、このRepoの絶対パスをローカルbundleとしてインストールする
 管理ツールの場合は `plugin_manager` に `action: install_bundle` とRepoの絶対パスを指定する
 プリセット登録の成功を確認し、新規セッションで表示名を選択する
 既存セッションは開始時のプリセットrevisionを保持するため、更新の確認には新規セッションを使う
