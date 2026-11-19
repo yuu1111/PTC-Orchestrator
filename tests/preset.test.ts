@@ -59,10 +59,25 @@ test("every plugin has a unique row identity", () => {
 	assert.equal(new Set(entries.map((entry) => entry.id)).size, entries.length);
 });
 
-test("PTC presentation remains enabled", () => {
-	const presentation = plugin("tool-presentation");
-	assert.equal(pluginConfig(presentation).mode, "ptc");
-	assert.notEqual(presentation.disabled, true);
+test("PTC execution remains enabled without the deprecated presentation shim", () => {
+	const executor = plugin("tool-executor-ptc");
+	assert.equal(executor.name, "@deepseek-ai/dsh-tool-executor-ptc");
+	assert.notEqual(executor.disabled, true);
+	assert.equal(
+		entries.some(
+			(entry) => entry.name === "@deepseek-ai/dsh-agent-tool-presentation",
+		),
+		false,
+	);
+});
+
+test("plan mode requires user approval rather than tool completion", () => {
+	const section = z.string().parse(pluginConfig(plugin("plan-mode")).section);
+	assert.match(
+		section,
+		/Stay in plan mode until the user approves your plan through exit_plan_mode or switches the session mode\./,
+	);
+	assert.doesNotMatch(section, /until exit_plan_mode succeeds/);
 });
 
 test("platform-specific shell expressions remain unevaluated", () => {
@@ -78,7 +93,11 @@ test("delegation retains spawn and fork without choosing a model", () => {
 	const spawn = plugin("tool-subagent");
 	const fork = plugin("tool-subagent-fork");
 	assert.equal(pluginConfig(spawn).provider, "spawn");
-	assert.equal(pluginConfig(spawn).modelSelectionSettings, true);
+	assert.equal(pluginConfig(spawn).modelSelection, true);
+	assert.equal(pluginConfig(spawn).modelDiscovery, true);
+	assert.equal(pluginConfig(spawn).modelSelectionSettings, undefined);
+	assert.equal(pluginConfig(spawn).backgroundMode, undefined);
+	assert.equal(pluginConfig(fork).backgroundMode, undefined);
 	assert.equal(pluginConfig(fork).provider, "fork");
 	assert.equal(pluginConfig(spawn).agentOptions, undefined);
 	assert.equal(pluginConfig(fork).agentOptions, undefined);
